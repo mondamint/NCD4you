@@ -28,8 +28,17 @@ class TokenData(BaseModel):
     role: Optional[str] = None
 
 def verify_password(plain_password, hashed_password):
+    # Check for simple hash first if enabled
+    if USE_SIMPLE_HASH:
+        try:
+            if hashlib.sha256(plain_password.encode()).hexdigest() == hashed_password:
+                return True
+        except Exception:
+            pass
+
     # Try bcrypt first (for existing hashes)
     try:
+        plain_password_truncated = plain_password
         if isinstance(plain_password, str):
             plain_password_truncated = plain_password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
         return pwd_context.verify(plain_password_truncated, hashed_password)
