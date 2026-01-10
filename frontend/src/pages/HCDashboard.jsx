@@ -22,7 +22,7 @@ const HCDashboard = () => {
     const fetchAppointments = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/appointments`);
+            const res = await axios.get(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/appointments`);
             // Backend filters by HC zone if user is HC
             // We can also filter by date client side or params
             setAppointments(res.data);

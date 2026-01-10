@@ -15,7 +15,7 @@ const PatientTable = ({ refreshTrigger, onSend, onEdit }) => {
         setLoading(true);
         setError(null);
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/patients`);
+            const res = await axios.get(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/patients`);
             setPatients(res.data);
             setFilteredPatients(res.data);
         } catch (error) {
@@ -29,7 +29,7 @@ const PatientTable = ({ refreshTrigger, onSend, onEdit }) => {
     const handleDelete = async (patient) => {
         if (!window.confirm(`คุณแน่ใจหรือไม่ที่จะลบผู้ป่วย: ${patient.name}?`)) return;
         try {
-            await axios.delete(`${import.meta.env.VITE_API_URL}/patients/${patient.id}`);
+            await axios.delete(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/patients/${patient.id}`);
             fetchPatients();
         } catch (e) {
             console.error(e);

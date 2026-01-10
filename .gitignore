@@ -1,4 +1,47 @@
-frontend/npm-debug.log
+# Python
 backend/venv/
 backend/__pycache__/
+backend/*.pyc
+backend/**/__pycache__/
 *.db
+*.db-journal
+
+# Node
+frontend/node_modules/
+frontend/npm-debug.log
+frontend/dist/
+frontend/.vite/
+
+# Environment variables
+.env
+.env.local
+.env.production
+backend/.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Config files (keep examples, ignore actual)
+config.js
+server_config.json
+
+# Build artifacts
+build/
+dist/
+*.exe
+*.spec
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp

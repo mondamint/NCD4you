@@ -57,7 +57,9 @@ export const AuthProvider = ({ children }) => {
             // Wait, my backend implementation: class LoginRequest(BaseModel): username, password. 
             // It expects JSON body not Form Data for the /login endpoint I wrote.
 
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/login`, {
+            // Use runtime config if available, fallback to env (which might be localhost)
+            const apiUrl = window.globalConfig?.API_URL || import.meta.env.VITE_API_URL;
+            const res = await axios.post(`${apiUrl}/login`, {
                 username,
                 password
             });

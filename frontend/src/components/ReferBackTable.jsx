@@ -18,7 +18,7 @@ const ReferBackTable = () => {
     const fetchData = async (start = '', end = '') => {
         setLoading(true);
         try {
-            let url = `${import.meta.env.VITE_API_URL}/appointments`;
+            let url = `${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/appointments`;
             const params = {};
             if (start) params.start_date = start;
             if (end) params.end_date = end;

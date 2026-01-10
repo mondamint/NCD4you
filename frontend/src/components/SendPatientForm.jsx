@@ -17,7 +17,7 @@ const EditModal = ({ appointment, onClose, onSuccess }) => {
         e.preventDefault();
         setLoading(true);
         try {
-            await axios.put(`${import.meta.env.VITE_API_URL}/appointments/${appointment.id}`, {
+            await axios.put(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/appointments/${appointment.id}`, {
                 appointment_date: date,
                 note: note
             }, {
@@ -100,7 +100,7 @@ const SendPatientForm = ({ initialPatient }) => {
         // Load all patients for suggestions
         const loadPatients = async () => {
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/patients`, {
+                const res = await axios.get(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/patients`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setAllPatients(res.data);
@@ -116,7 +116,7 @@ const SendPatientForm = ({ initialPatient }) => {
         const fetchAppts = async () => {
             setListLoading(true);
             try {
-                const res = await axios.get(`${import.meta.env.VITE_API_URL}/appointments`, {
+                const res = await axios.get(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/appointments`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 const pending = res.data.filter(a => a.status === 'pending');
@@ -192,7 +192,7 @@ const SendPatientForm = ({ initialPatient }) => {
         setLoading(true);
         setMsg(null);
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/patients`, {
+            const res = await axios.get(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/patients`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const searchTerm = hnSearch.trim();
@@ -231,7 +231,7 @@ const SendPatientForm = ({ initialPatient }) => {
         try {
             await Promise.all(cart.map(async (patient) => {
                 try {
-                    await axios.post(`${import.meta.env.VITE_API_URL}/appointments`, {
+                    await axios.post(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/appointments`, {
                         patient_id: patient.id,
                         appointment_date: date,
                         note: globalNote,
@@ -268,7 +268,7 @@ const SendPatientForm = ({ initialPatient }) => {
     const handleDeleteAppt = async (id) => {
         if (!window.confirm("คุณต้องการลบการนัดหมายนี้ใช่หรือไม่?")) return;
         try {
-            await axios.delete(`${import.meta.env.VITE_API_URL}/appointments/${id}`, {
+            await axios.delete(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/appointments/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             refreshList();

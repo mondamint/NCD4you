@@ -6,3 +6,5 @@ python-jose[cryptography]
 passlib[bcrypt]
 pandas
 openpyxl
+psycopg2-binary
+python-dotenv

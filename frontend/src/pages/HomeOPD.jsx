@@ -22,7 +22,7 @@ const HomeOPD = () => {
     const fetchItems = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/home-opd`);
+            const res = await axios.get(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/home-opd`);
             setItems(res.data);
         } catch (e) {
             console.error(e);
@@ -38,7 +38,7 @@ const HomeOPD = () => {
     const searchPatientByHN = async () => {
         if (!hnSearch) return;
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/patients`);
+            const res = await axios.get(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/patients`);
             const p = res.data.find(x => x.hn === hnSearch);
             if (p) {
                 setFoundPatient(p);
@@ -57,7 +57,7 @@ const HomeOPD = () => {
         e.preventDefault();
         setSubmitting(true);
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/home-opd`, {
+            await axios.post(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/home-opd`, {
                 patient_id: foundPatient?.id,
                 cid: cid,
                 name: name,

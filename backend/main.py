@@ -10,6 +10,10 @@ import pandas as pd
 import io
 import os
 import sys
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 from . import models, database
 from .user_auth import create_access_token, get_current_user, authenticate_user, get_password_hash, ACCESS_TOKEN_EXPIRE_MINUTES, Token
@@ -18,9 +22,13 @@ models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
 
+# Get CORS origins from environment variable, default to "*" for local development
+cors_origins_str = os.getenv("CORS_ORIGINS", "*")
+cors_origins = cors_origins_str.split(",") if cors_origins_str != "*" else ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Allow all for local exe convenience, or keep specific
+    allow_origins=cors_origins,
     allow_origin_regex=None,
     allow_credentials=True,
     allow_methods=["*"],
@@ -644,6 +652,31 @@ else:
     # so ../frontend/dist
     base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     static_dir = os.path.join(base_path, "frontend", "dist")
+
+    static_dir = os.path.join(base_path, "frontend", "dist")
+
+# [NEW] prioritized config.js route
+@app.get("/config.js")
+async def serve_config():
+    # 1. Try external config (next to exe or in root)
+    if getattr(sys, 'frozen', False):
+        exe_dir = os.path.dirname(sys.executable)
+        external_config = os.path.join(exe_dir, "config.js")
+    else:
+        # Dev: project root (parent of backend)
+        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        external_config = os.path.join(root_dir, "config.js")
+    
+    if os.path.exists(external_config):
+        print(f"Serving external config from: {external_config}")
+        return FileResponse(external_config)
+    
+    # 2. Fallback to bundled config
+    bundled = os.path.join(static_dir, "config.js")
+    if os.path.exists(bundled):
+        return FileResponse(bundled)
+    
+    return HTMLResponse("window.globalConfig = {};", status_code=200)
 
 if os.path.exists(static_dir):
     print(f"Serving static files from: {static_dir}")

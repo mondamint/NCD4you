@@ -1,0 +1,8 @@
+window.globalConfig = {
+    API_URL: "http://localhost:8001"  // Change this to your Railway backend URL in production
+};
+
+// Production example:
+// window.globalConfig = {
+//     API_URL: "https://your-backend.railway.app"
+// };

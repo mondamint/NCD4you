@@ -99,7 +99,7 @@ const VisitModal = ({ appointment, onClose, onSuccess }) => {
             };
 
             // 1. Save Visit Data
-            await axios.put(`${import.meta.env.VITE_API_URL}/appointments/${appointment.id}/visit`, {
+            await axios.put(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/appointments/${appointment.id}/visit`, {
                 bp_sys: parseInt(bpSys),
                 bp_dia: parseInt(bpDia),
                 bp_sys_2: parseInt(bpSys2) || 0,
@@ -116,7 +116,7 @@ const VisitModal = ({ appointment, onClose, onSuccess }) => {
                     reason += `ความดันครั้งที่ 2 (${bpSys2}/${bpDia2}) `;
                 }
 
-                await axios.put(`${import.meta.env.VITE_API_URL}/appointments/${appointment.id}/refer-back`, {
+                await axios.put(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/appointments/${appointment.id}/refer-back`, {
                     note: reason.trim()
                 }, config);
             }

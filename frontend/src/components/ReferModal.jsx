@@ -18,7 +18,7 @@ const ReferModal = ({ appointment, onClose, onSuccess }) => {
         setLoading(true);
         setError(null);
         try {
-            await axios.put(`${import.meta.env.VITE_API_URL}/appointments/${appointment.id}/refer-back`, {
+            await axios.put(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/appointments/${appointment.id}/refer-back`, {
                 note: note
             }, {
                 headers: { Authorization: `Bearer ${token}` }

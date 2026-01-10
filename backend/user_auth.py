@@ -9,9 +9,15 @@ from . import models, database
 from pydantic import BaseModel
 import hashlib
 
-SECRET_KEY = "SECRET_KEY_NCD_APP" # Change in production
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY", "SECRET_KEY_NCD_APP") # Get from env or use default
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 # 1 day
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 60 * 24)) # 1 day default
 
 # Use hashlib for Python 3.14 compatibility (temporary fix)
 USE_SIMPLE_HASH = True

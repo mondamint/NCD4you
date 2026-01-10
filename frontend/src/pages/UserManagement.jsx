@@ -79,8 +79,8 @@ const UserModal = ({ user, onClose, onSuccess }) => {
         setLoading(true);
         try {
             const url = isEdit
-                ? `${import.meta.env.VITE_API_URL}/users/${user.id}`
-                : `${import.meta.env.VITE_API_URL}/users`;
+                ? `${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/users/${user.id}`
+                : `${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/users`;
 
             const method = isEdit ? 'put' : 'post';
 
@@ -235,7 +235,7 @@ const UserManagement = () => {
     const fetchUsers = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API_URL}/users`, {
+            const res = await axios.get(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/users`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUsers(res.data);
@@ -249,7 +249,7 @@ const UserManagement = () => {
     const handleDelete = async (id) => {
         if (!window.confirm("คุณต้องการลบผู้ใช้งานนี้หรือไม่?")) return;
         try {
-            await axios.delete(`${import.meta.env.VITE_API_URL}/users/${id}`, {
+            await axios.delete(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/users/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             fetchUsers();

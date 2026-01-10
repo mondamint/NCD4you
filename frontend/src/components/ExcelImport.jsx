@@ -34,7 +34,7 @@ const ExcelImport = ({ onUploadSuccess }) => {
         formData.append("file", file);
 
         try {
-            const res = await axios.post(`${import.meta.env.VITE_API_URL}/patients/upload`, formData, {
+            const res = await axios.post(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/patients/upload`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${token}`

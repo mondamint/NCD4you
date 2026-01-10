@@ -74,10 +74,10 @@ const ManualPatientModal = ({ onClose, onSuccess, initialData = null }) => {
 
             if (initialData) {
                 // UPDATE
-                await axios.put(`${import.meta.env.VITE_API_URL}/patients/${initialData.id}`, formData, config);
+                await axios.put(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/patients/${initialData.id}`, formData, config);
             } else {
                 // CREATE
-                await axios.post(`${import.meta.env.VITE_API_URL}/patients`, formData, config);
+                await axios.post(`${window.globalConfig?.API_URL || import.meta.env.VITE_API_URL}/patients`, formData, config);
             }
             onSuccess();
             onClose();
